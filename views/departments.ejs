@@ -18,6 +18,8 @@
         <tr>
             <td><%=data.dname %></td>
             <td><%=data.dnumber %></td>
+            <td><a href="/showDept/<%=data.dnumber%>/edit">Edit</a></td>
+            <td><form action="/showDept/<%=data.dnumber%>?_method=DELETE" method="POST"><button>Delete</button></form></td>
         </tr>
         <%  i++; }) %>
         <% } else{ %>

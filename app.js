@@ -185,9 +185,9 @@ app.delete('/showEmp/:id/',(req,res)=>{
 })
 
 
-
+//DEPARTMENT ROUTES
 app.get('/showDept/addDept',(req,res)=>{
-		res.render('dept_form');
+	res.render('dept_form')
 })
 app.post('/showDept', function(req, res, next) {
 	var dname = req.body.dname;
@@ -203,12 +203,41 @@ app.post('/showDept', function(req, res, next) {
 	  }
 	   });
 }); 
-// /adddept
+app.get('/showDept/:id/edit',(req,res)=>{
+	var sql=`SELECT dname,dnumber FROM department where dnumber=${req.params.id};`;
+	connection.query(sql,(err,data,fields)=>{
+		res.render('dept_edit', { dnoData: data});
+	})
+})
+app.post('/showDept/:id', function(req, res, next) {
+	var dname = req.body.dname;
+   var sql = `UPDATE department SET dname='${dname}' WHERE dnumber=${req.params.id}`;
+   connection.query(sql,function (err, data) {
+	  if (err){
+		  throw err;
+	  };
+	  res.redirect(`/showDept`);
+		   console.log('record updated');
+	});
+});
+app.delete('/showDept/:id/',(req,res)=>{
+	var sql=`Delete from department where dnumber=${req.params.id}`;
+	connection.query(sql,(err,data)=>{
+		if(err)
+			throw err;
+		res.redirect('/showDept');
+			console.log('record deleted')
+	})
+})
+
+
+// PAYGRADE DETAILS
+
+
 // /addgrade
 // /addsal
 // /updategrade
 // /updatesal
-// /deletedept
 // /deletegrade
 app.listen(3000,()=>{
     console.log("Server is running")

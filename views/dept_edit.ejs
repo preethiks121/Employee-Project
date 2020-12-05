@@ -1,0 +1,10 @@
+<%- include("partials/header") %>
+        <div class="user-detail">
+            <h2 style="text-align: center;">Update Department</h2>
+            <form action="/showDept/<%= dnoData[0].dnumber %>" method="POST">
+                  <label>Department Name</label>
+                  <input type="text" placeholder="Enter Department Name" name="dname" value="<%= dnoData[0].dname%> " required>
+                  <button type="submit">Submit</button>
+                </div>
+        </div>
+<%- include("partials/footer") %>
