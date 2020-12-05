@@ -1,0 +1,31 @@
+<%- include("partials/header") %>
+<%- include('partials/flash') %> 
+        <h1 style="text-align: center;">Departments</h1>
+        <div class="row justify-content-center">
+            <a href="/showDept/addDept">Add new Department</a>
+                <div class="col-auto">
+        <table border="1" style="text-align: center;">
+        <tr>
+            <th>Department Name</th>
+            <th>Dept ID</th>
+        </tr>
+        
+        <%
+        if(departmentData.length!=0){
+        var i=1;
+        departmentData.forEach(function(data){
+        %>
+        <tr>
+            <td><%=data.dname %></td>
+            <td><%=data.dnumber %></td>
+        </tr>
+        <%  i++; }) %>
+        <% } else{ %>
+            <tr>
+                <td colspan="7">No Data Found</td>
+            </tr>
+        <% } %>
+    </table>
+    </div>
+    </div>
+<%- include("partials/footer") %>

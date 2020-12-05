@@ -1,0 +1,36 @@
+<%- include("partials/header") %>
+        <div class="user-detail">
+            <h2 style="text-align: center;">Create Employee Data</h2>
+            <form action="/showEMP" method="POST">
+                  <label>SuperSSN</label>
+                  <input type="text" placeholder="Enter Supervisor SSN" name="SuperSSN" required>
+                  <label>First Name</label>
+                  <input type="text" placeholder="Enter First Name" name="fname" required>
+                  <label>Middle Name</label>
+                  <input type="text" placeholder="Enter Middle Name" name="minit">
+                  <label>Last Name</label>
+                  <input type="text" placeholder="Enter Last Name" name="lname" required>
+                  <label>Birth date</label>
+                  <input type="date" placeholder="Enter Birth Date" name="bdate" required>
+                  <label>Address</label>
+                  <input type="textarea" placeholder="Enter Full Address" name="address" required>
+                  <label>Sex</label>
+                  <input type="text" placeholder="Enter Sex" name="sex" required>
+                  <label>Grade Name</label>
+                  <select name="grade_name" id="">
+                        <% for(var i=0;i<gdata.length;i++){%> 
+                                <option value="<%=gdata[i].grade_name%>" ><%=gdata[i].grade_name%></option>
+                        <% } %> 
+                  </select>
+                  <label>Department number</label>
+                  <select name="dno" id="">
+                        <% for(var i=0;i<dnoData.length;i++){%> 
+                                <option value="<%=dnoData[i].dnumber%>" ><%=dnoData[i].dnumber%></option>
+                        <% } %> 
+                  </select>
+                  
+                        
+                  <button type="submit">Submit</button>
+                </div>
+        </div>
+<%- include("partials/footer") %>

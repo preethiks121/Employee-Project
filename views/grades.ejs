@@ -1,0 +1,29 @@
+<%- include("partials/header") %>
+        <h1 style="text-align: center;">Pay Grade</h1>
+        <div class="row justify-content-center">
+                <div class="col-auto">
+                        <table border="1" style="text-align: center;">
+                                <tr>
+                                    <th>Grade Name</th>
+                                    <th>Grade ID</th>
+                                </tr>
+                                
+                                <%
+                                if(gradeData.length!=0){
+                                var i=1;
+                                gradeData.forEach(function(data){
+                                %>
+                                <tr>
+                                    <td><%=data.grade_name %></td>
+                                    <td><%=data.grade_id %></td>
+                                </tr>
+                                <%  i++; }) %>
+                                <% } else{ %>
+                                <tr>
+                                        <td colspan="7">No Data Found</td>
+                                </tr>
+                        <% } %>
+                </table>
+        </div>
+    </div>
+<%- include("partials/footer") %>

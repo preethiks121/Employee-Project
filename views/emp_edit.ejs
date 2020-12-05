@@ -1,0 +1,51 @@
+<%- include("partials/header") %>
+<% function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+} %> 
+        <div class="user-detail">
+            <h2 style="text-align: center;">Edit Employee Data</h2>
+            <form action="/showEMP/<%= employeeData[0].SSN %> " method="POST">
+                  <label>SuperSSN</label>
+                  <input type="text" placeholder="Enter Supervisor SSN" name="SuperSSN" value="<%= employeeData[0].SuperSSN %> " required>
+                  <label>First Name</label>
+                  <input type="text" placeholder="Enter First Name" name="fname" value="<%=employeeData[0].fname %> " required>
+                  <label>Middle Name</label>
+                  <input type="text" placeholder="Enter Middle Name" name="minit" value="<%=employeeData[0].minit %> ">
+                  <label>Last Name</label>
+                  <input type="text" placeholder="Enter Last Name" name="lname" value="<%=employeeData[0].lname %> " required>
+                  <label>Birth date</label>
+                  <input type="text" placeholder="Enter Birth Date(yyyy-mm-dd)" name="bdate" value="<%=formatDate(employeeData[0].bdate.toDateString() )%> " required>
+                  <label>Address</label>
+                  <input type="textarea" placeholder="Enter Full Address" name="address" value="<%=employeeData[0].address %> " required>
+                  <label>Sex</label>
+                  <input type="text" placeholder="Enter Sex" name="sex" value="<%=employeeData[0].sex %> " required>
+                  <label>Grade Name</label>
+                  <select name="grade_name">
+                        <option selected><%= employeeData[0].grade_name%> </option>
+                        <% for(var i=0;i<gdata.length;i++){%> 
+                                <option value="<%=gdata[i].grade_name%>" ><%=gdata[i].grade_name%></option>
+                        <% } %> 
+                  </select>
+                  <label>Department number</label>
+                  <select name="dno" id="">
+                      <option selected><%= employeeData[0].dno %> </option>
+                        <% for(var i=0;i<dnoData.length;i++){%> 
+                                <option value="<%=dnoData[i].dnumber%>" ><%=dnoData[i].dnumber%></option>
+                        <% } %> 
+                  </select>
+                  
+                        
+                  <button type="submit">Submit</button>
+                </div>
+        </div>
+<%- include("partials/footer") %>

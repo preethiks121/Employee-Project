@@ -1,0 +1,34 @@
+<%- include("partials/header") %>
+        <h1 style="text-align: center;">Employees</h1>
+        <div class="row justify-content-center">
+                <a href="/showEmp/addEmp">Add new Employee</a>
+                <div class="col-auto">
+                        <table border="1" style="text-align: center;">
+                                <tr>
+                                    <th>Employee Name</th>
+                                    <th>Employee SSN</th>
+                                    <th>Department Number</th>
+                                </tr>
+                                
+                                <%
+                                if(employeeData.length!=0){
+                                var i=1;
+                                employeeData.forEach(function(data){
+                                %>
+                                <tr>
+                                    <td><%=data.Name %></td>
+                                    <td><%=data.SSN %></td>
+                                    <td><%=data.dno %></td>
+                                    <td><a href="/showEmp/<%=data.SSN%>/edit">Edit</a></td>
+                                    <td><form action="/showEmp/<%=data.SSN%>?_method=DELETE" method="POST"><button>Delete</button></form></td>
+                                </tr>
+                                <%  i++; }) %>
+                                <% } else{ %>
+                                <tr>
+                                        <td colspan="7">No Data Found</td>
+                                </tr>
+                        <% } %>
+                </table>
+        </div>
+    </div>
+<%- include("partials/footer") %>
