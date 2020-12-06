@@ -19,6 +19,7 @@
                                     <td><%=data.Name %></td>
                                     <td><%=data.SSN %></td>
                                     <td><%=data.dno %></td>
+                                    <td><a href="/showEmp/<%=data.SSN%>">View Details</a></td>
                                     <td><a href="/showEmp/<%=data.SSN%>/edit">Edit</a></td>
                                     <td><form action="/showEmp/<%=data.SSN%>?_method=DELETE" method="POST"><button>Delete</button></form></td>
                                 </tr>

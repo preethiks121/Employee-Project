@@ -1,0 +1,19 @@
+<%- include("partials/header") %>
+        <div class="user-detail">
+            <h2 style="text-align: center;">Add new Grade</h2>
+            <form action="/showGrade/<%= gdata[0].grade_id %> " method="POST">
+                  <label>Grade Name</label>
+                  <input type="text" placeholder="Enter Grade Name" name="grade_name" value="<%= gdata[0].grade_name %>" required>
+                  <label>Basic</label>
+                  <input type="text" placeholder="Enter Basic" name="grade_basic" value="<%= gdata[0].grade_basic %>">
+                  <label>DA</label>
+                  <input type="text" placeholder="Enter DA" name="grade_da" value="<%= gdata[0].grade_da %>" required>
+                  <label>PF</label>
+                  <input type="text" placeholder="Enter PF" name="grade_pf" value="<%= gdata[0].grade_pf %>" required>
+                  <label>Bonus</label>
+                  <input type="text" placeholder="Enter Bonus" name="grade_bonus" value="<%= gdata[0].grade_bonus %>" required>
+                  <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+<%- include("partials/footer") %>

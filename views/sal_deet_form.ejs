@@ -1,0 +1,35 @@
+<%- include("partials/header") %>
+<% const monthNames = ["January", "February", "March", "April", "May", "June",
+"July", "August", "September", "October", "November", "December"
+]; %> 
+<%- include("partials/flash") %> 
+        <div class="user-detail">
+            <h2 style="text-align: center;">Enter Salary Details</h2>
+            <form action="/showSal/addSal " method="POST">
+                <label>Select Employee ID</label>
+                <select name="SSN" id="">
+                      <% for(var i=0;i<ssndata.length;i++){%> 
+                              <option value="<%=ssndata[i].SSN%>" ><%=ssndata[i].SSN%></option>
+                      <% } %> 
+                </select>
+                <label>Select Grade Name</label>
+                <select name="grade_name" id="">
+                      <% for(var i=0;i<gdata.length;i++){%> 
+                              <option value="<%=gdata[i].grade_name%>" ><%=gdata[i].grade_name%></option>
+                      <% } %> 
+                </select>
+                <label>Select Salary Month</label>
+                <select name="emp_salary_month" id="">
+                      <% for(var i=0;i<monthNames.length;i++){%> 
+                              <option value="<%=monthNames[i]%>" ><%=monthNames[i]%></option>
+                      <% } %> 
+                </select>
+                  <label>Add Salary Year</label>
+                  <input type="text" placeholder="Enter Year" name="emp_salary_year" required>
+                  <label>Enter Recieved Date</label>
+                  <input type="date" placeholder="Enter Date" name="recieve_date" required>
+                  <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+<%- include("partials/footer") %>

@@ -1,6 +1,7 @@
 <%- include("partials/header") %>
         <h1 style="text-align: center;">Pay Grade</h1>
         <div class="row justify-content-center">
+                <a href="/showGrade/addGrade">Add new Grade</a>
                 <div class="col-auto">
                         <table border="1" style="text-align: center;">
                                 <tr>
@@ -16,6 +17,8 @@
                                 <tr>
                                     <td><%=data.grade_name %></td>
                                     <td><%=data.grade_id %></td>
+                                    <td><a href="/showGrade/<%=data.grade_id%>/edit">Edit</a></td>
+                                    <td><form action="/showGrade/<%=data.grade_id%>?_method=DELETE" method="POST"><button>Delete</button></form></td>
                                 </tr>
                                 <%  i++; }) %>
                                 <% } else{ %>

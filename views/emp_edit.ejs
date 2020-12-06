@@ -15,8 +15,6 @@
         <div class="user-detail">
             <h2 style="text-align: center;">Edit Employee Data</h2>
             <form action="/showEMP/<%= employeeData[0].SSN %> " method="POST">
-                  <label>SuperSSN</label>
-                  <input type="text" placeholder="Enter Supervisor SSN" name="SuperSSN" value="<%= employeeData[0].SuperSSN %> " required>
                   <label>First Name</label>
                   <input type="text" placeholder="Enter First Name" name="fname" value="<%=employeeData[0].fname %> " required>
                   <label>Middle Name</label>
@@ -29,13 +27,6 @@
                   <input type="textarea" placeholder="Enter Full Address" name="address" value="<%=employeeData[0].address %> " required>
                   <label>Sex</label>
                   <input type="text" placeholder="Enter Sex" name="sex" value="<%=employeeData[0].sex %> " required>
-                  <label>Grade Name</label>
-                  <select name="grade_name">
-                        <option selected><%= employeeData[0].grade_name%> </option>
-                        <% for(var i=0;i<gdata.length;i++){%> 
-                                <option value="<%=gdata[i].grade_name%>" ><%=gdata[i].grade_name%></option>
-                        <% } %> 
-                  </select>
                   <label>Department number</label>
                   <select name="dno" id="">
                       <option selected><%= employeeData[0].dno %> </option>

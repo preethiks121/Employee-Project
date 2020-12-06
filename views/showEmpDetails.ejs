@@ -1,0 +1,59 @@
+<%- include("partials/header") %>
+<% function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+} %> 
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <h3>Employee Details</h3>
+            <table border="1" style="text-align: center;">
+                <tr>
+                    <th>First Name</th>
+                    <th>Middle Name</th>
+                    <th>Last Name</th>
+                    <th>Birth Date</th>
+                    <th>Sex</th>
+                    <th>Department Number</th>
+                </tr>
+                    <tr>
+                        <td><%=empdata[0].fname %></td>
+                        <td><%=empdata[0].minit %></td>
+                        <td><%=empdata[0].lname %></td>
+                        <td><%=formatDate(empdata[0].bdate) %></td>
+                        <td><%=empdata[0].sex %></td>
+                        <td><%=empdata[0].dno %></td>
+                    </tr>
+            </table>
+            <h3>Salary Details</h3>
+            <table border="1" style="text-align: center;">
+                <tr>
+                    <th>Transaction ID</th>
+                    <th>Monthly Salary</th>
+                    <th>Gross Salary</th>
+                    <th>Salary Month</th>
+                    <th>Salary Year</th>
+                    <th>Recieved Date</th>
+                </tr>
+                <% for(var i=0;i<saldata.length;i++){ %> 
+                    <tr>
+                        <td><%=saldata[i].transaction_id %></td>
+                        <td><%=saldata[i].emp_net_salary %></td>
+                        <td><%=saldata[i].emp_gross %></td>
+                        <td><%=saldata[i].emp_salary_month %></td>
+                        <td><%=saldata[i].emp_salary_year %></td>
+                        <td><%=formatDate(saldata[i].recieve_date) %></td>
+                    </tr>
+                <% } %> 
+            </table>
+        </div>
+    </div>
+<%- include("partials/footer") %>

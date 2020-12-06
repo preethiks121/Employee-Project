@@ -111,61 +111,69 @@ app.get('/showGrade',(req,res)=>{
 });
 
 //EMPLOYEE ROUTES
+
 app.get('/showEmp/addEmp',(req,res)=>{
-	var sql='SELECT dnumber FROM department ORDER BY dnumber';
-    connection.query(sql, function (err, data, fields) {
-	if (err) throw err;
-	var sql1='Select grade_name from pay_grade';
+	var sql1='SELECT dnumber FROM department ORDER BY dnumber';
 	connection.query(sql1,(err,data1,fields)=>{
 		if(err) throw err;
-		res.render('emp_form', { dnoData: data,gdata:data1});
-	})
-  });
-})
-app.post('/showEmp', function(req, res, next) {
-	var SuperSSN = req.body.SuperSSN;
-	var bdate    = req.body.bdate;
-	var address  = req.body.address;
-	var grade_name = req.body.grade_name;
-	var sex = req.body.sex;
-	var fname = req.body.fname;
-	var minit = req.body.minit;
-	var lname = req.body.lname;
-	var dno = req.body.dno;
-   var sql = `INSERT INTO employee (SuperSSN,fname,minit,lname,bdate,address,sex,salary,dno) VALUES ('${SuperSSN}', '${fname}', '${minit}','${lname}','${bdate}','${address}','${sex}',(Select grade_basic+grade_da+grade_pf+grade_bonus from pay_grade where grade_name='${grade_name}'),'${dno}' )`;
-   connection.query(sql,function (err, data) {
-	  if (err){
-		  res.redirect('/showEmp')
-	  };
-		   console.log("record inserted");
-	   });
-   res.redirect('/showEmp');
-}); 
-app.get('/showEmp/:id/edit',(req,res)=>{
-	var sql='SELECT dnumber FROM department ORDER BY dnumber';
-    connection.query(sql, function (err, data, fields) {
-	if (err) throw err;
-	var sql1='Select grade_name from pay_grade';
-	connection.query(sql1,(err,data1,fields)=>{
-		if(err) throw err;
-		var sql2=`SELECT * FROM employee,pay_grade,salary where employee.SSN=${req.params.id} and employee.SSN=salary.SSN and salary.grade_no=pay_grade.grade_id ;`;
-		connection.query(sql2,(err,data2,fields)=>{
-			res.render('emp_edit', { dnoData: data,gdata:data1,employeeData:data2});
+		var sql='Select SSN from employee order by SSN'
+		connection.query(sql,(err,data,fields)=>{
+			if(err) throw err;
+			res.render('emp_form', { dnoData: data1,SSNdata:data});
 		})
 	})
   });
-})
-app.post('/showEmp/:id', function(req, res, next) {
-	var SuperSSN = req.body.SuperSSN;
+app.post('/showEmp', function(req, res, next) {
 	var bdate    = req.body.bdate;
 	var address  = req.body.address;
-	var grade_name = req.body.grade_name;
 	var sex = req.body.sex;
 	var fname = req.body.fname;
 	var minit = req.body.minit;
 	var lname = req.body.lname;
 	var dno = req.body.dno;
-   var sql = `UPDATE employee SET SuperSSN='${SuperSSN}',fname='${fname}',minit='${minit}',lname='${lname}',bdate='${bdate}',address='${address}',sex='${sex}',salary=(Select grade_basic+grade_da+grade_pf+grade_bonus from pay_grade where grade_name='${grade_name}'),dno='${dno}' WHERE SSN='${req.params.id}'`;
+   	var sql = `INSERT INTO employee (fname,minit,lname,bdate,address,sex,dno) VALUES ('${fname}', '${minit}','${lname}','${bdate}','${address}','${sex}','${dno}' )`;
+   	connection.query(sql,function (err, data) {
+	  if (err){
+		  console.log(err)
+	  }else{
+		  res.redirect('/showEmp')
+		  console.log('record inserted')
+	  }
+	});
+}); 
+app.get('/showEmp/:id',(req,res)=>{
+	var sql=`Select * from employee where employee.SSN=${req.params.id}`
+	connection.query(sql,(err,data,fields)=>{
+		var sql1=`Select * from salary where SSN=${req.params.id}`
+		connection.query(sql1,(err,data1,fields)=>{
+			res.render('showEmpDetails',{empdata:data,saldata:data1});
+		})
+	})
+})
+app.get('/showEmp/:id/edit',(req,res)=>{
+	var sql='SELECT dnumber FROM department ORDER BY dnumber';
+	connection.query(sql,(err,data,fields)=>{
+		if(err) throw err;
+		var sql2=`SELECT * FROM employee where employee.SSN=${req.params.id}  ;`;
+		connection.query(sql2,(err,data2,fields)=>{
+			if(err) throw err;
+			var sql1='Select SSN from employee order by SSN'
+			connection.query(sql1,(err,data1,fields)=>{
+				if(err) throw err;
+				res.render('emp_edit', { dnoData: data,employeeData:data2,SSNdata:data1});
+			})
+		})
+	})
+  });
+app.post('/showEmp/:id', function(req, res, next) {
+	var bdate    = req.body.bdate;
+	var address  = req.body.address;
+	var sex = req.body.sex;
+	var fname = req.body.fname;
+	var minit = req.body.minit;
+	var lname = req.body.lname;
+	var dno = req.body.dno;
+   var sql = `UPDATE employee SET fname='${fname}',minit='${minit}',lname='${lname}',bdate='${bdate}',address='${address}',sex='${sex}',dno='${dno}' WHERE SSN='${req.params.id}'`;
    connection.query(sql,function (err, data) {
 	  if (err){
 		  throw err;
@@ -232,13 +240,93 @@ app.delete('/showDept/:id/',(req,res)=>{
 
 
 // PAYGRADE DETAILS
+app.get('/showGrade/addGrade',(req,res)=>{
+	res.render('grade_form');
+  });
+app.post('/showGrade', function(req, res, next) {
+	var grade_name    = req.body.grade_name;
+	var grade_basic  = req.body.grade_basic;
+	var grade_da = req.body.grade_da;
+	var grade_pf = req.body.grade_pf;
+	var grade_bonus = req.body.grade_bonus;
+   	var sql = `INSERT INTO pay_grade (grade_name,grade_basic,grade_da,grade_pf,grade_bonus) VALUES ('${grade_name}', '${grade_basic}','${grade_da}','${grade_pf}','${grade_bonus}')`;
+   	connection.query(sql,function (err, data) {
+	  if (err){
+		  console.log(err)
+	  }else{
+		  res.redirect('/showGrade')
+		  console.log('record inserted')
+	  }
+	});
+});
+app.get('/showGrade/:id/edit',(req,res)=>{
+	var sql=`SELECT * FROM pay_grade where grade_id=${req.params.id};`;
+	connection.query(sql,(err,data,fields)=>{
+		res.render('grade_edit', { gdata: data});
+	})
+})
+app.post('/showGrade/:id', function(req, res, next) {
+	var grade_name    = req.body.grade_name;
+	var grade_basic  = req.body.grade_basic;
+	var grade_da = req.body.grade_da;
+	var grade_pf = req.body.grade_pf;
+	var grade_bonus = req.body.grade_bonus;
+   var sql = `UPDATE pay_grade SET grade_name='${grade_name}',grade_basic='${grade_basic}',grade_da='${grade_da}',grade_pf='${grade_pf}',grade_bonus='${grade_bonus}' WHERE grade_id=${req.params.id}`;
+   connection.query(sql,function (err, data) {
+	  if (err){
+		  throw err;
+	  };
+	  res.redirect(`/showGrade`);
+		   console.log('record updated');
+	});
+});
+app.delete('/showGrade/:id/',(req,res)=>{
+	var sql=`Delete from pay_grade where grade_id=${req.params.id}`;
+	connection.query(sql,(err,data)=>{
+		if(err)
+			throw err;
+		res.redirect('/showGrade');
+			console.log('record deleted')
+	})
+})
 
 
-// /addgrade
-// /addsal
-// /updategrade
-// /updatesal
-// /deletegrade
+// SALARY DETAILS ROUTES 
+app.get('/showSal',(req,res)=>{
+	if (req.session.loggedin) {
+		var sql='Select SSN from employee';
+		connection.query(sql,(err,data,fields)=>{
+			var sql1='Select grade_name from pay_grade'
+			connection.query(sql1,(err,data1,fields)=>{
+				res.render('sal_deet_form',{ssndata:data,gdata:data1});
+			})
+		})
+	} else {
+	  req.flash('error','Please login to view this page!')
+	  res.redirect('/')
+  }
+});
+app.post('/showSal/addSal', function(req, res, next) {
+	var SSN    = req.body.SSN;
+	var grade_name = req.body.grade_name;
+	var emp_salary_month = req.body.emp_salary_month;
+	var emp_salary_year = req.body.emp_salary_year;
+	var recieved_date = req.body.recieve_date;
+	   var sql = `INSERT INTO salary (SSN,grade_no,emp_salary_month,emp_salary_year,recieve_date,emp_net_salary,emp_gross) VALUES 
+	   ('${SSN}', (Select grade_id from pay_grade where grade_name='${grade_name}'),'${emp_salary_month}','${emp_salary_year}','${recieved_date}',(Select grade_basic+grade_da+grade_bonus-grade_pf from pay_grade where grade_name='${grade_name}'),(Select (grade_basic+grade_da+grade_bonus-grade_pf)*12 from pay_grade where grade_name='${grade_name}') )`;
+   	connection.query(sql,function (err, data) {
+	  if (err){
+		  console.log(err)
+	  }else{
+		req.flash('success','Salary Added!')
+		  res.redirect('/showSal')
+		  console.log('record inserted')
+	  }
+	});
+});
+
+
+//PORTAL ROUTES
 app.listen(3000,()=>{
     console.log("Server is running")
 })
