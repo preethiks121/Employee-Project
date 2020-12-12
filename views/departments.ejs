@@ -1,13 +1,13 @@
 <%- include("partials/header") %>
 <%- include('partials/flash') %> 
-        <h1 style="text-align: center;">Departments</h1>
+        <h1 style="text-align: center;font-size: 3rem;">Departments</h1>
+        <a href="/showDept/addDept" style="height:40px;margin-left: 34rem;padding-bottom: 0.2rem;" class="btn btn-primary">Add new Department</a>
         <div class="row justify-content-center">
-            <a href="/showDept/addDept">Add new Department</a>
-                <div class="col-auto">
-        <table border="1" style="text-align: center;">
+        <div class="col-auto">
+        <table style="text-align: center;margin-top: 2rem;" >
         <tr>
-            <th>Department Name</th>
-            <th>Dept ID</th>
+            <th style="padding-right: 2rem;">Department Name</th>
+            <th style="padding-right: 2rem;">Dept ID</th>
         </tr>
         
         <%
@@ -15,12 +15,13 @@
         var i=1;
         departmentData.forEach(function(data){
         %>
-        <tr>
-            <td><%=data.dname %></td>
-            <td><%=data.dnumber %></td>
-            <td><a href="/showDept/<%=data.dnumber%>/edit">Edit</a></td>
-            <td><form action="/showDept/<%=data.dnumber%>?_method=DELETE" method="POST"><button>Delete</button></form></td>
+        <tr style="border-bottom: 1px solid rgba(71, 71, 71, 0.726);">
+            <td style="padding-right: 2rem;"><%=data.dname %></td>
+            <td style="padding-right: 2rem;"><%=data.dnumber %></td>
+            <td style="padding-right: 2rem;"><a href="/showDept/<%=data.dnumber%>/edit" class="btn btn-success">Edit</a></td>
+            <td><form action="/showDept/<%=data.dnumber%>?_method=DELETE" method="POST"><button class="btn btn-danger" style="margin-top: 1rem;">Delete</button></form></td>
         </tr>
+        
         <%  i++; }) %>
         <% } else{ %>
             <tr>
@@ -31,3 +32,5 @@
     </div>
     </div>
 <%- include("partials/footer") %>
+
+

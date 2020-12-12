@@ -1,10 +1,15 @@
 <%- include("partials/header") %>
         <div class="user-detail">
-            <h2 style="text-align: center;">Update Department</h2>
+            <h2 style="text-align: center;margin-top: 2rem;margin-bottom: 2rem;">Update Department</h2>
+            <div  class="card" style="margin: auto; width: 50%;
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
             <form action="/showDept/<%= dnoData[0].dnumber %>" method="POST">
-                  <label>Department Name</label>
-                  <input type="text" placeholder="Enter Department Name" name="dname" value="<%= dnoData[0].dname%> " required>
-                  <button type="submit">Submit</button>
+                <div class="form-group" style="margin: auto; width: 70%;">
+                        <label style="margin-top: 2rem;margin-bottom: 1rem;">Department Name</label>
+                  <input type="text" class="form-control" placeholder="Enter Department Name" name="dname" value="<%= dnoData[0].dname%> " required>
+                  <button type="submit" class="btn btn-primary" style="margin-top: 2rem;">Submit</button>
+                </div>
+                  </form>
                 </div>
         </div>
 <%- include("partials/footer") %>

@@ -134,8 +134,11 @@ app.post('/showEmp', function(req, res, next) {
    	var sql = `INSERT INTO employee (fname,minit,lname,bdate,address,sex,dno) VALUES ('${fname}', '${minit}','${lname}','${bdate}','${address}','${sex}','${dno}' )`;
    	connection.query(sql,function (err, data) {
 	  if (err){
-		  console.log(err)
+		request.flash('error','Record not inserted')
+		response.redirect('/showEmp')
+		console.log(err)
 	  }else{
+		  request.flash('success','Record inserted')
 		  res.redirect('/showEmp')
 		  console.log('record inserted')
 	  }
@@ -176,19 +179,27 @@ app.post('/showEmp/:id', function(req, res, next) {
    var sql = `UPDATE employee SET fname='${fname}',minit='${minit}',lname='${lname}',bdate='${bdate}',address='${address}',sex='${sex}',dno='${dno}' WHERE SSN='${req.params.id}'`;
    connection.query(sql,function (err, data) {
 	  if (err){
-		  throw err;
-	  };
-	  res.redirect(`/showEmp`);
-		   console.log("record updated");
+		request.flash('error','Record not updated')
+		response.redirect('/showEmp')
+	  }else{
+		request.flash('success','Record updated')
+		res.redirect(`/showEmp`);
+		console.log("record updated");
+	  }
 	   });
 });
 app.delete('/showEmp/:id/',(req,res)=>{
 	var sql=`Delete from employee where SSN=${req.params.id}`;
 	connection.query(sql,(err,data)=>{
-		if(err)
-			throw err;
-		res.redirect('/showEmp');
+		if(err){
+			request.flash('error','Record not deleted')
+			res.redirect(`/showEmp`);
+			console.log(err);
+		}else{
+			request.flash('success','Record deleted')
+			res.redirect('/showEmp');
 			console.log('record deleted')
+		}
 	})
 })
 
@@ -222,10 +233,13 @@ app.post('/showDept/:id', function(req, res, next) {
    var sql = `UPDATE department SET dname='${dname}' WHERE dnumber=${req.params.id}`;
    connection.query(sql,function (err, data) {
 	  if (err){
-		  throw err;
-	  };
-	  res.redirect(`/showDept`);
+		req.flash('error','Department not Updated')
+		res.redirect('/showDept')
+	  }else{
+		res.redirect(`/showDept`);
 		   console.log('record updated');
+	  }
+	  
 	});
 });
 app.delete('/showDept/:id/',(req,res)=>{

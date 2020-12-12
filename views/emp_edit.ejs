@@ -13,30 +13,33 @@
     return [year, month, day].join('-');
 } %> 
         <div class="user-detail">
-            <h2 style="text-align: center;">Edit Employee Data</h2>
+            <h2 style="text-align: center;margin-top: 2rem;margin-bottom: 2rem;">Edit Employee Data</h2>
+            <div class="card" style="margin: auto; width: 50%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
             <form action="/showEMP/<%= employeeData[0].SSN %> " method="POST">
-                  <label>First Name</label>
-                  <input type="text" placeholder="Enter First Name" name="fname" value="<%=employeeData[0].fname %> " required>
-                  <label>Middle Name</label>
-                  <input type="text" placeholder="Enter Middle Name" name="minit" value="<%=employeeData[0].minit %> ">
-                  <label>Last Name</label>
-                  <input type="text" placeholder="Enter Last Name" name="lname" value="<%=employeeData[0].lname %> " required>
-                  <label>Birth date</label>
-                  <input type="text" placeholder="Enter Birth Date(yyyy-mm-dd)" name="bdate" value="<%=formatDate(employeeData[0].bdate.toDateString() )%> " required>
-                  <label>Address</label>
-                  <input type="textarea" placeholder="Enter Full Address" name="address" value="<%=employeeData[0].address %> " required>
-                  <label>Sex</label>
-                  <input type="text" placeholder="Enter Sex" name="sex" value="<%=employeeData[0].sex %> " required>
-                  <label>Department number</label>
-                  <select name="dno" id="">
-                      <option selected><%= employeeData[0].dno %> </option>
-                        <% for(var i=0;i<dnoData.length;i++){%> 
-                                <option value="<%=dnoData[i].dnumber%>" ><%=dnoData[i].dnumber%></option>
-                        <% } %> 
-                  </select>
-                  
-                        
-                  <button type="submit">Submit</button>
+                <div class="form-group" style="margin: auto; width: 70%;">
+                    <label style="margin-top: 2rem;margin-bottom: 1rem;">First Name</label>
+                    <input type="text" class="form-control" placeholder="Enter First Name" name="fname" value="<%=employeeData[0].fname %> " required>
+                    <label style="margin-top: 2rem;margin-bottom: 1rem;">Middle Name</label>
+                    <input type="text" class="form-control" placeholder="Enter Middle Name" name="minit" value="<%=employeeData[0].minit %> ">
+                    <label style="margin-top: 2rem;margin-bottom: 1rem;">Last Name</label>
+                    <input type="text" class="form-control" placeholder="Enter Last Name" name="lname" value="<%=employeeData[0].lname %> " required>
+                    <label style="margin-top: 2rem;margin-bottom: 1rem;">Birth date</label>
+                    <input type="text" class="form-control" placeholder="Enter Birth Date(yyyy-mm-dd)" name="bdate" value="<%=formatDate(employeeData[0].bdate.toDateString() )%> " required>
+                    <label style="margin-top: 2rem;margin-bottom: 1rem;">Address</label>
+                    <input type="textarea" class="form-control" placeholder="Enter Full Address" name="address" value="<%=employeeData[0].address %> " required>
+                    <label style="margin-top: 2rem;margin-bottom: 1rem;">Sex</label>
+                    <input type="text" class="form-control" placeholder="Enter Sex" name="sex" value="<%=employeeData[0].sex %> " required>
+                    <label style="margin-top: 2rem;margin-bottom: 1rem;">Department number</label>
+                    <select name="dno" class="form-control">
+                        <option selected><%= employeeData[0].dno %> </option>
+                          <% for(var i=0;i<dnoData.length;i++){%> 
+                                  <option value="<%=dnoData[i].dnumber%>" ><%=dnoData[i].dnumber%></option>
+                          <% } %> 
+                    </select>
+                    <button type="submit" class="form-control btn btn-primary mt-4">Submit</button>
+                </div>
+                </form>
                 </div>
         </div>
 <%- include("partials/footer") %>

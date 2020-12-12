@@ -4,31 +4,35 @@
 ]; %> 
 <%- include("partials/flash") %> 
         <div class="user-detail">
-            <h2 style="text-align: center;">Enter Salary Details</h2>
+            <h2 style="text-align: center;margin-top: 2rem;margin-bottom: 2rem;">Enter Salary Details</h2>
+            <div class="card" style="margin: auto; width: 50%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
             <form action="/showSal/addSal " method="POST">
-                <label>Select Employee ID</label>
-                <select name="SSN" id="">
+                <div class="form-group" style="margin: auto; width: 70%;">
+                        <label style="margin-top: 2rem;margin-bottom: 1rem;">Select Employee ID</label>
+                <select name="SSN" class="form-control">
                       <% for(var i=0;i<ssndata.length;i++){%> 
                               <option value="<%=ssndata[i].SSN%>" ><%=ssndata[i].SSN%></option>
                       <% } %> 
                 </select>
-                <label>Select Grade Name</label>
-                <select name="grade_name" id="">
+                <label style="margin-top: 2rem;margin-bottom: 1rem;">Select Grade Name</label>
+                <select name="grade_name" class="form-control">
                       <% for(var i=0;i<gdata.length;i++){%> 
                               <option value="<%=gdata[i].grade_name%>" ><%=gdata[i].grade_name%></option>
                       <% } %> 
                 </select>
-                <label>Select Salary Month</label>
-                <select name="emp_salary_month" id="">
+                <label style="margin-top: 2rem;margin-bottom: 1rem;">Select Salary Month</label>
+                <select name="emp_salary_month" class="form-control">
                       <% for(var i=0;i<monthNames.length;i++){%> 
                               <option value="<%=monthNames[i]%>" ><%=monthNames[i]%></option>
                       <% } %> 
                 </select>
-                  <label>Add Salary Year</label>
-                  <input type="text" placeholder="Enter Year" name="emp_salary_year" required>
-                  <label>Enter Recieved Date</label>
-                  <input type="date" placeholder="Enter Date" name="recieve_date" required>
-                  <button type="submit">Submit</button>
+                  <label style="margin-top: 2rem;margin-bottom: 1rem;">Add Salary Year</label>
+                  <input type="text" placeholder="Enter Year" class="form-control" name="emp_salary_year" required>
+                  <label style="margin-top: 2rem;margin-bottom: 1rem;">Enter Recieved Date</label>
+                  <input type="date" placeholder="Enter Date" class="form-control" name="recieve_date" required>
+                  <button type="submit" class="form-control btn btn-primary mt-4">Submit</button>
+                </div>
                 </form>
             </div>
         </div>

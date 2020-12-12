@@ -1,12 +1,12 @@
 <%- include("partials/header") %>
-        <h1 style="text-align: center;">Pay Grade</h1>
+        <h1 style="text-align: center;font-size: 3rem;">Pay Grade</h1>
+        <a href="/showGrade/addGrade" style="height:40px;margin-left: 35rem;padding-bottom: 0.2rem;" class="btn btn-primary">Add new Grade</a>
         <div class="row justify-content-center">
-                <a href="/showGrade/addGrade">Add new Grade</a>
                 <div class="col-auto">
-                        <table border="1" style="text-align: center;">
+                        <table style="text-align: center;margin-top: 2rem;">
                                 <tr>
-                                    <th>Grade Name</th>
-                                    <th>Grade ID</th>
+                                    <th style="padding-right: 2rem;">Grade Name</th>
+                                    <th style="padding-right: 2rem;">Grade ID</th>
                                 </tr>
                                 
                                 <%
@@ -14,11 +14,11 @@
                                 var i=1;
                                 gradeData.forEach(function(data){
                                 %>
-                                <tr>
-                                    <td><%=data.grade_name %></td>
-                                    <td><%=data.grade_id %></td>
-                                    <td><a href="/showGrade/<%=data.grade_id%>/edit">Edit</a></td>
-                                    <td><form action="/showGrade/<%=data.grade_id%>?_method=DELETE" method="POST"><button>Delete</button></form></td>
+                                <tr style="border-bottom: 1px solid rgba(71, 71, 71, 0.726);">
+                                    <td style="padding-right: 2rem;"><%=data.grade_name %></td>
+                                    <td style="padding-right: 2rem;"><%=data.grade_id %></td>
+                                    <td style="padding-right: 2rem;"><a href="/showGrade/<%=data.grade_id%>/edit" class="btn btn-success">Edit</a></td>
+                                    <td><form action="/showGrade/<%=data.grade_id%>?_method=DELETE" method="POST"><button class="btn btn-danger" style="margin-top: 1rem;">Delete</button></form></td>
                                 </tr>
                                 <%  i++; }) %>
                                 <% } else{ %>

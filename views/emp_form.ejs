@@ -1,28 +1,33 @@
 <%- include("partials/header") %>
         <div class="user-detail">
-            <h2 style="text-align: center;">Create Employee Data</h2>
+            <h2 style="text-align: center;margin-top: 2rem;margin-bottom: 2rem;">Create Employee Data</h2>
+            <div class="card" style="margin: auto; width: 50%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
             <form action="/showEMP" method="POST">
-                  <label>First Name</label>
-                  <input type="text" placeholder="Enter First Name" name="fname" required>
-                  <label>Middle Name</label>
-                  <input type="text" placeholder="Enter Middle Name" name="minit">
-                  <label>Last Name</label>
-                  <input type="text" placeholder="Enter Last Name" name="lname" required>
-                  <label>Birth date</label>
-                  <input type="date" placeholder="Enter Birth Date" name="bdate" required>
-                  <label>Address</label>
-                  <input type="textarea" placeholder="Enter Full Address" name="address" required>
-                  <label>Sex</label>
-                  <input type="text" placeholder="Enter Sex" name="sex" required>
-                  <label>Department number</label>
-                  <select name="dno" id="">
-                        <% for(var i=0;i<dnoData.length;i++){%> 
-                                <option value="<%=dnoData[i].dnumber%>" ><%=dnoData[i].dnumber%></option>
-                        <% } %> 
-                  </select>
-                  
-                        
-                  <button type="submit">Submit</button>
+                <div class="form-group" style="margin: auto; width: 70%;">
+                <label style="margin-top: 2rem;margin-bottom: 1rem;">First Name</label>
+                <input type="text" placeholder="Enter First Name" class="form-control" name="fname" required>
+                <label style="margin-top: 2rem;margin-bottom: 1rem;">Middle Name</label>
+                <input type="text" placeholder="Enter Middle Name" class="form-control" name="minit">
+                <label style="margin-top: 2rem;margin-bottom: 1rem;">Last Name</label>
+                <input type="text" placeholder="Enter Last Name" class="form-control" name="lname" required>
+                <label style="margin-top: 2rem;margin-bottom: 1rem;">Birth date</label>
+                <input type="date" placeholder="Enter Birth Date" class="form-control" name="bdate" required>
+                <label style="margin-top: 2rem;margin-bottom: 1rem;">Address</label>
+                <input type="textarea" placeholder="Enter Full Address" class="form-control" name="address" required>
+                <label style="margin-top: 2rem;margin-bottom: 1rem;">Sex</label>
+                <input type="text" placeholder="Enter Sex" class="form-control" name="sex" required>
+                <label style="margin-top: 2rem;margin-bottom: 1rem;">Department number</label>
+                <select name="dno" class="form-control">
+                      <% for(var i=0;i<dnoData.length;i++){%> 
+                              <option value="<%=dnoData[i].dnumber%>" ><%=dnoData[i].dnumber%></option>
+                      <% } %> 
+                </select>
+                <button type="submit" class="form-control btn btn-primary mt-4">Submit</button>
+                </div>
+                </form>
+        </div>
+            
                 </div>
         </div>
 <%- include("partials/footer") %>

@@ -1,13 +1,13 @@
 <%- include("partials/header") %>
-        <h1 style="text-align: center;">Employees</h1>
+        <h1 style="text-align: center;font-size: 3rem;">Employees</h1>
+        <a href="/showEmp/addEmp" style="height:40px;margin-left: 34.2rem;padding-bottom: 0.2rem;" class="btn btn-primary">Add new Employee</a>
         <div class="row justify-content-center">
-                <a href="/showEmp/addEmp">Add new Employee</a>
                 <div class="col-auto">
-                        <table border="1" style="text-align: center;">
+                        <table style="text-align: center;margin-top: 2rem;">
                                 <tr>
-                                    <th>Employee Name</th>
-                                    <th>Employee SSN</th>
-                                    <th>Department Number</th>
+                                    <th style="padding-right: 2rem;">Employee Name</th>
+                                    <th style="padding-right: 2rem;">Employee SSN</th>
+                                    <th style="padding-right: 2rem;">Department Number</th>
                                 </tr>
                                 
                                 <%
@@ -15,13 +15,13 @@
                                 var i=1;
                                 employeeData.forEach(function(data){
                                 %>
-                                <tr>
-                                    <td><%=data.Name %></td>
-                                    <td><%=data.SSN %></td>
-                                    <td><%=data.dno %></td>
-                                    <td><a href="/showEmp/<%=data.SSN%>">View Details</a></td>
-                                    <td><a href="/showEmp/<%=data.SSN%>/edit">Edit</a></td>
-                                    <td><form action="/showEmp/<%=data.SSN%>?_method=DELETE" method="POST"><button>Delete</button></form></td>
+                                <tr style="border-bottom: 1px solid rgba(71, 71, 71, 0.726);">
+                                    <td style="padding-right: 2rem;"><%=data.Name %></td>
+                                    <td style="padding-right: 2rem;"><%=data.SSN %></td>
+                                    <td style="padding-right: 2rem;"><%=data.dno %></td>
+                                    <td style="padding-right: 2rem;"><a href="/showEmp/<%=data.SSN%>" class="btn btn-warning">View Details</a></td>
+                                    <td style="padding-right: 2rem;"><a href="/showEmp/<%=data.SSN%>/edit" class="btn btn-success">Edit</a></td>
+                                    <td><form action="/showEmp/<%=data.SSN%>?_method=DELETE" method="POST"><button class="btn btn-danger" style="margin-top: 1rem;">Delete</button></form></td>
                                 </tr>
                                 <%  i++; }) %>
                                 <% } else{ %>

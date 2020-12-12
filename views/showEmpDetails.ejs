@@ -14,43 +14,49 @@
 } %> 
     <div class="row justify-content-center">
         <div class="col-auto">
-            <h3>Employee Details</h3>
-            <table border="1" style="text-align: center;">
-                <tr>
-                    <th>First Name</th>
-                    <th>Middle Name</th>
-                    <th>Last Name</th>
-                    <th>Birth Date</th>
-                    <th>Sex</th>
-                    <th>Department Number</th>
+            <h3 style="text-align: center;margin-top: 2rem;margin-bottom: 2rem;">Employee Details</h3>
+            <table style="text-align: center;margin-top: 2rem;">
+                <tr style="border-bottom: 1px solid rgba(71, 71, 71, 0.726);">
+                    <th style="padding-right: 2rem;">First Name</th>
+                    <th style="padding-right: 2rem;">Middle Name</th>
+                    <th style="padding-right: 2rem;">Last Name</th>
+                    <th style="padding-right: 2rem;">Birth Date</th>
+                    <th style="padding-right: 2rem;">Address</th>
+                    <th style="padding-right: 2rem;">Sex</th>
+                    <th style="padding-right: 2rem;">Department Number</th>
                 </tr>
                     <tr>
-                        <td><%=empdata[0].fname %></td>
-                        <td><%=empdata[0].minit %></td>
-                        <td><%=empdata[0].lname %></td>
-                        <td><%=formatDate(empdata[0].bdate) %></td>
-                        <td><%=empdata[0].sex %></td>
-                        <td><%=empdata[0].dno %></td>
+                        <td style="padding-right: 2rem;"><%=empdata[0].fname %></td>
+                        <td style="padding-right: 2rem;"><%=empdata[0].minit %></td>
+                        <td style="padding-right: 2rem;"><%=empdata[0].lname %></td>
+                        <td style="padding-right: 2rem;"><%=formatDate(empdata[0].bdate) %></td>
+                        <td style="padding-right: 2rem;"><%=empdata[0].address %></td>
+                        <td style="padding-right: 2rem;"><%=empdata[0].sex %></td>
+                        <td style="padding-right: 2rem;"><%=empdata[0].dno %></td>
                     </tr>
             </table>
-            <h3>Salary Details</h3>
-            <table border="1" style="text-align: center;">
-                <tr>
-                    <th>Transaction ID</th>
-                    <th>Monthly Salary</th>
-                    <th>Gross Salary</th>
-                    <th>Salary Month</th>
-                    <th>Salary Year</th>
-                    <th>Recieved Date</th>
+            <br>
+            <hr style="width: 400px;
+			border-top: 1px solid #f8f8f8;
+			border-bottom: 1px solid rgba(0,0,0,0.5);">
+            <h3 style="text-align: center;margin-top: 2rem;margin-bottom: 2rem;">Salary Details</h3>
+            <table style="text-align: center;margin-top: 2rem;">
+                <tr style="border-bottom: 1px solid rgba(71, 71, 71, 0.726);">
+                    <th style="padding-right: 2rem;">Transaction ID</th>
+                    <th style="padding-right: 2rem;">Monthly Salary</th>
+                    <th style="padding-right: 2rem;">Gross Salary</th>
+                    <th style="padding-right: 2rem;">Salary Month</th>
+                    <th style="padding-right: 2rem;">Salary Year</th>
+                    <th style="padding-right: 2rem;">Recieved Date</th>
                 </tr>
                 <% for(var i=0;i<saldata.length;i++){ %> 
-                    <tr>
-                        <td><%=saldata[i].transaction_id %></td>
-                        <td><%=saldata[i].emp_net_salary %></td>
-                        <td><%=saldata[i].emp_gross %></td>
-                        <td><%=saldata[i].emp_salary_month %></td>
-                        <td><%=saldata[i].emp_salary_year %></td>
-                        <td><%=formatDate(saldata[i].recieve_date) %></td>
+                    <tr style="border-bottom: 1px solid rgba(71, 71, 71, 0.726);">
+                        <td style="padding-right: 2rem;"><%=saldata[i].transaction_id %></td>
+                        <td style="padding-right: 2rem;"><%=saldata[i].emp_net_salary %></td>
+                        <td style="padding-right: 2rem;"><%=saldata[i].emp_gross %></td>
+                        <td style="padding-right: 2rem;"><%=saldata[i].emp_salary_month %></td>
+                        <td style="padding-right: 2rem;"><%=saldata[i].emp_salary_year %></td>
+                        <td style="padding-right: 2rem;"><%=formatDate(saldata[i].recieve_date) %></td>
                     </tr>
                 <% } %> 
             </table>
