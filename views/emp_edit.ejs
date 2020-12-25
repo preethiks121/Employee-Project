@@ -12,11 +12,12 @@
 
     return [year, month, day].join('-');
 } %> 
+<%- include("partials/flash") %> 
         <div class="user-detail">
             <h2 style="text-align: center;margin-top: 2rem;margin-bottom: 2rem;">Edit Employee Data</h2>
             <div class="card" style="margin: auto; width: 50%;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-            <form action="/showEMP/<%= employeeData[0].SSN %> " method="POST">
+            <form action="/showEmp/<%= employeeData[0].emp_id %> " method="POST">
                 <div class="form-group" style="margin: auto; width: 70%;">
                     <label style="margin-top: 2rem;margin-bottom: 1rem;">First Name</label>
                     <input type="text" class="form-control" placeholder="Enter First Name" name="fname" value="<%=employeeData[0].fname %> " required>

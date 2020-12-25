@@ -10,9 +10,9 @@
             <form action="/showSal/addSal " method="POST">
                 <div class="form-group" style="margin: auto; width: 70%;">
                         <label style="margin-top: 2rem;margin-bottom: 1rem;">Select Employee ID</label>
-                <select name="SSN" class="form-control">
-                      <% for(var i=0;i<ssndata.length;i++){%> 
-                              <option value="<%=ssndata[i].SSN%>" ><%=ssndata[i].SSN%></option>
+                <select name="emp_id" class="form-control">
+                      <% for(var i=0;i<emp_iddata.length;i++){%> 
+                              <option value="<%=emp_iddata[i].emp_id%>" ><%=emp_iddata[i].emp_id%></option>
                       <% } %> 
                 </select>
                 <label style="margin-top: 2rem;margin-bottom: 1rem;">Select Grade Name</label>

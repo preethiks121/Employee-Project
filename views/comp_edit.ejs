@@ -1,0 +1,19 @@
+<%- include("partials/header") %>
+<%- include("partials/flash") %> 
+        <div class="user-detail">
+            <h2 style="text-align: center;margin-top: 2rem;margin-bottom: 2rem;">Edit Fiscal Data</h2>
+            <div class="card" style="margin: auto; width: 50%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+            <form action="/showComp/<%=cdata[0].year%> " method="POST">
+                <div class="form-group" style="margin: auto; width: 70%;">
+                <label style="margin-top: 2rem;margin-bottom: 1rem;">Turnover(in Rs)</label>
+                <input type="text" placeholder="Enter Turnover Amount" class="form-control" name="turnover" value="<%= cdata[0].turnover %> " required>
+                <label style="margin-top: 2rem;margin-bottom: 1rem;">Tax</label>
+                <input type="text" placeholder="Enter Tax" class="form-control" value="<%= cdata[0].tax%> " name="tax" required>
+                <button type="submit" class="form-control btn btn-primary mt-4">Submit</button>
+                </div>
+                </form>
+                </div>
+            </div>
+        </div>
+<%- include("partials/footer") %>

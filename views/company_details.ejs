@@ -1,0 +1,47 @@
+<%- include("partials/header") %> <%- include("partials/flash") %>
+<h1 style="text-align: center; font-size: 3rem">Company Revenue Details</h1>
+<a
+  href="/showComp/add_deet"
+  style="height: 40px; margin-left: 34.2rem; padding-bottom: 0.2rem"
+  class="btn btn-primary"
+  >Add Fiscal Data</a
+>
+<div class="row justify-content-center">
+  <div class="col-auto">
+    <table style="text-align: center; margin-top: 2rem">
+      <tr>
+        <th style="padding-right: 2rem">Year</th>
+        <th style="padding-right: 2rem">Turnover</th>
+        <th style="padding-right: 2rem">Tax</th>
+        <th style="padding-right: 2rem">Revenue</th>
+      </tr>
+
+      <% if(compData.length!=0){ var i=1;
+      compData.forEach(function(data){ %>
+      <tr style="border-bottom: 1px solid rgba(71, 71, 71, 0.726)">
+        <td style="padding-right: 2rem"><%=data.year %></td>
+        <td style="padding-right: 2rem"><%=data.turnover%></td>
+        <td style="padding-right: 2rem"><%=data.tax%></td>
+        <td style="padding-right: 2rem"><%=data.revenue%></td>
+        
+        <td style="padding-right: 2rem">
+          <a href="/showComp/<%=data.year%>/edit" class="btn btn-success"
+            >Edit</a>
+        </td>
+        <td>
+          <form action="/showComp/<%=data.year%>?_method=DELETE" method="POST">
+            <button class="btn btn-danger" style="margin-top: 1rem">
+              Delete
+            </button>
+          </form>
+        </td>
+      </tr>
+      <% i++; }) %> <% } else{ %>
+      <tr>
+        <td colspan="7">No Data Found</td>
+      </tr>
+      <% } %>
+    </table>
+  </div>
+</div>
+<%- include("partials/footer") %>

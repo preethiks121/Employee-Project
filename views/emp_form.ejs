@@ -1,9 +1,10 @@
 <%- include("partials/header") %>
+<%- include("partials/flash") %> 
         <div class="user-detail">
             <h2 style="text-align: center;margin-top: 2rem;margin-bottom: 2rem;">Create Employee Data</h2>
             <div class="card" style="margin: auto; width: 50%;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-            <form action="/showEMP" method="POST">
+            <form action="/showEmp" method="POST">
                 <div class="form-group" style="margin: auto; width: 70%;">
                 <label style="margin-top: 2rem;margin-bottom: 1rem;">First Name</label>
                 <input type="text" placeholder="Enter First Name" class="form-control" name="fname" required>
@@ -20,7 +21,10 @@
                 <label style="margin-top: 2rem;margin-bottom: 1rem;">Department number</label>
                 <select name="dno" class="form-control">
                       <% for(var i=0;i<dnoData.length;i++){%> 
-                              <option value="<%=dnoData[i].dnumber%>" ><%=dnoData[i].dnumber%></option>
+                      <%if(dnoData[i].dnumber){%>
+                              <option value="<%=dnoData[i].dnumber%>" >
+                              <%=dnoData[i].dnumber%></option>
+                              <%}%>
                       <% } %> 
                 </select>
                 <button type="submit" class="form-control btn btn-primary mt-4">Submit</button>

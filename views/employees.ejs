@@ -1,35 +1,56 @@
-<%- include("partials/header") %>
-        <h1 style="text-align: center;font-size: 3rem;">Employees</h1>
-        <a href="/showEmp/addEmp" style="height:40px;margin-left: 34.2rem;padding-bottom: 0.2rem;" class="btn btn-primary">Add new Employee</a>
-        <div class="row justify-content-center">
-                <div class="col-auto">
-                        <table style="text-align: center;margin-top: 2rem;">
-                                <tr>
-                                    <th style="padding-right: 2rem;">Employee Name</th>
-                                    <th style="padding-right: 2rem;">Employee SSN</th>
-                                    <th style="padding-right: 2rem;">Department Number</th>
-                                </tr>
-                                
-                                <%
-                                if(employeeData.length!=0){
-                                var i=1;
-                                employeeData.forEach(function(data){
-                                %>
-                                <tr style="border-bottom: 1px solid rgba(71, 71, 71, 0.726);">
-                                    <td style="padding-right: 2rem;"><%=data.Name %></td>
-                                    <td style="padding-right: 2rem;"><%=data.SSN %></td>
-                                    <td style="padding-right: 2rem;"><%=data.dno %></td>
-                                    <td style="padding-right: 2rem;"><a href="/showEmp/<%=data.SSN%>" class="btn btn-warning">View Details</a></td>
-                                    <td style="padding-right: 2rem;"><a href="/showEmp/<%=data.SSN%>/edit" class="btn btn-success">Edit</a></td>
-                                    <td><form action="/showEmp/<%=data.SSN%>?_method=DELETE" method="POST"><button class="btn btn-danger" style="margin-top: 1rem;">Delete</button></form></td>
-                                </tr>
-                                <%  i++; }) %>
-                                <% } else{ %>
-                                <tr>
-                                        <td colspan="7">No Data Found</td>
-                                </tr>
-                        <% } %>
-                </table>
-        </div>
-    </div>
+<%- include("partials/header") %> <%- include("partials/flash") %>
+<h1 style="text-align: center; font-size: 3rem">Employees</h1>
+<a
+  href="/showEmp/addEmp"
+  style="height: 40px; margin-left: 34.2rem; padding-bottom: 0.2rem"
+  class="btn btn-primary"
+  >Add new Employee</a
+>
+<div class="row justify-content-center">
+  <div class="col-auto">
+    <table style="text-align: center; margin-top: 2rem">
+      <tr>
+        <th style="padding-right: 2rem">Employee Name</th>
+        <th style="padding-right: 2rem">Employee ID</th>
+        <th style="padding-right: 2rem">Department Number</th>
+      </tr>
+
+      <% if(employeeData.length!=0){ var i=1;
+      employeeData.forEach(function(data){ %>
+      <tr style="border-bottom: 1px solid rgba(71, 71, 71, 0.726)">
+        <td style="padding-right: 2rem"><%=data.Name %></td>
+        <td style="padding-right: 2rem"><%=data.emp_id %></td>
+        <%if(data.dno){%>
+        <td style="padding-right: 2rem"><%=data.dno %></td>
+        <%}else{%>
+        <td style="padding-right: 2rem">
+          <p style="margin-bottom: 0rem">No Department</p>
+        </td>
+        <%}%>
+        <td style="padding-right: 2rem">
+          <a href="/showEmp/<%=data.emp_id%>" class="btn btn-warning"
+            >View Details</a
+          >
+        </td>
+        <td style="padding-right: 2rem">
+          <a href="/showEmp/<%=data.emp_id%>/edit" class="btn btn-success"
+            >Edit</a
+          >
+        </td>
+        <td>
+          <form action="/showEmp/<%=data.emp_id%>?_method=DELETE" method="POST">
+            <button class="btn btn-danger" style="margin-top: 1rem">
+              Delete
+            </button>
+          </form>
+        </td>
+      </tr>
+      <% i++; }) %> <% } else{ %>
+      <tr>
+        <td colspan="7">No Data Found</td>
+      </tr>
+      <% } %>
+    </table>
+  </div>
+</div>
 <%- include("partials/footer") %>

@@ -38,23 +38,23 @@ app.use((req,res,next)=>{
 app.get('/',(req,res)=>{
     res.render("login")
 })
-app.post('/auth', function(request, response) {
-	var username = request.body.username;
-	var password = request.body.password;
+app.post('/auth', function(req, response) {
+	var username = req.body.username;
+	var password = req.body.password;
 	if (username && password) {
 		connection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
 			if (results.length > 0) {
-				request.session.loggedin = true;
-				request.session.username = username;
+				req.session.loggedin = true;
+				req.session.username = username;
 				response.redirect('/home');
 			} else {
-				request.flash('error','Incorrect Username/Password')
+				req.flash('error','Incorrect Username/Password')
 				response.redirect('/')
 			}			
 			response.end();
 		});
 	} else {
-		request.flash('error','Please enter Username and Password')
+		req.flash('error','Please enter Username and Password')
 		response.redirect('/')
 		response.end();
 	}
@@ -87,7 +87,7 @@ app.get('/showDept',(req,res)=>{
 })
 app.get('/showEmp',(req,res)=>{
   if (req.session.loggedin) {
-	var sql='SELECT CONCAT_WS(" ", `fname`, `lname`) AS `Name`,SSN,dno FROM `employee` ORDER BY SSN';
+	var sql='SELECT CONCAT_WS(" ", `fname`, `lname`) AS `Name`,emp_id,dno FROM `employee` ORDER BY emp_id';
     connection.query(sql, function (err, data, fields) {
     if (err) throw err;
     res.render('employees', { title: 'employee-list', employeeData: data});
@@ -109,17 +109,28 @@ app.get('/showGrade',(req,res)=>{
 	res.redirect('/')
 }
 });
-
+app.get('/showComp',(req,res)=>{
+	if (req.session.loggedin) {
+	  var sql='SELECT * FROM company_details ORDER BY year';
+	  connection.query(sql, function (err, data, fields) {
+	  if (err) throw err;
+	  res.render('company_details', { title: 'company_detail-list', compData: data});
+	});
+  } else {
+	  req.flash('error','Please login to view this page!')
+	  res.redirect('/')
+  }
+  });
 //EMPLOYEE ROUTES
 
 app.get('/showEmp/addEmp',(req,res)=>{
 	var sql1='SELECT dnumber FROM department ORDER BY dnumber';
 	connection.query(sql1,(err,data1,fields)=>{
 		if(err) throw err;
-		var sql='Select SSN from employee order by SSN'
+		var sql='Select emp_id from employee order by emp_id'
 		connection.query(sql,(err,data,fields)=>{
 			if(err) throw err;
-			res.render('emp_form', { dnoData: data1,SSNdata:data});
+			res.render('emp_form', { dnoData: data1,emp_iddata:data});
 		})
 	})
   });
@@ -134,20 +145,20 @@ app.post('/showEmp', function(req, res, next) {
    	var sql = `INSERT INTO employee (fname,minit,lname,bdate,address,sex,dno) VALUES ('${fname}', '${minit}','${lname}','${bdate}','${address}','${sex}','${dno}' )`;
    	connection.query(sql,function (err, data) {
 	  if (err){
-		request.flash('error','Record not inserted')
+		req.flash('error','Record not inserted')
 		response.redirect('/showEmp')
 		console.log(err)
 	  }else{
-		  request.flash('success','Record inserted')
+		  req.flash('success','Record inserted')
 		  res.redirect('/showEmp')
 		  console.log('record inserted')
 	  }
 	});
 }); 
 app.get('/showEmp/:id',(req,res)=>{
-	var sql=`Select * from employee where employee.SSN=${req.params.id}`
+	var sql=`Select * from employee where employee.emp_id=${req.params.id}`
 	connection.query(sql,(err,data,fields)=>{
-		var sql1=`Select * from salary where SSN=${req.params.id}`
+		var sql1=`Select * from salary where emp_id=${req.params.id}`
 		connection.query(sql1,(err,data1,fields)=>{
 			res.render('showEmpDetails',{empdata:data,saldata:data1});
 		})
@@ -157,13 +168,13 @@ app.get('/showEmp/:id/edit',(req,res)=>{
 	var sql='SELECT dnumber FROM department ORDER BY dnumber';
 	connection.query(sql,(err,data,fields)=>{
 		if(err) throw err;
-		var sql2=`SELECT * FROM employee where employee.SSN=${req.params.id}  ;`;
+		var sql2=`SELECT * FROM employee where employee.emp_id=${req.params.id}  ;`;
 		connection.query(sql2,(err,data2,fields)=>{
 			if(err) throw err;
-			var sql1='Select SSN from employee order by SSN'
+			var sql1='Select emp_id from employee order by emp_id'
 			connection.query(sql1,(err,data1,fields)=>{
 				if(err) throw err;
-				res.render('emp_edit', { dnoData: data,employeeData:data2,SSNdata:data1});
+				res.render('emp_edit', { dnoData: data,employeeData:data2,emp_iddata:data1});
 			})
 		})
 	})
@@ -176,27 +187,27 @@ app.post('/showEmp/:id', function(req, res, next) {
 	var minit = req.body.minit;
 	var lname = req.body.lname;
 	var dno = req.body.dno;
-   var sql = `UPDATE employee SET fname='${fname}',minit='${minit}',lname='${lname}',bdate='${bdate}',address='${address}',sex='${sex}',dno='${dno}' WHERE SSN='${req.params.id}'`;
+   var sql = `UPDATE employee SET fname='${fname}',minit='${minit}',lname='${lname}',bdate='${bdate}',address='${address}',sex='${sex}',dno='${dno}' WHERE emp_id='${req.params.id}'`;
    connection.query(sql,function (err, data) {
 	  if (err){
-		request.flash('error','Record not updated')
+		req.flash('error','Record not updated')
 		response.redirect('/showEmp')
 	  }else{
-		request.flash('success','Record updated')
+		req.flash('success','Record updated')
 		res.redirect(`/showEmp`);
 		console.log("record updated");
 	  }
 	   });
 });
 app.delete('/showEmp/:id/',(req,res)=>{
-	var sql=`Delete from employee where SSN=${req.params.id}`;
+	var sql=`Delete from employee where emp_id=${req.params.id}`;
 	connection.query(sql,(err,data)=>{
 		if(err){
-			request.flash('error','Record not deleted')
+			req.flash('error','Record not deleted')
 			res.redirect(`/showEmp`);
 			console.log(err);
 		}else{
-			request.flash('success','Record deleted')
+			req.flash('success','Record deleted')
 			res.redirect('/showEmp');
 			console.log('record deleted')
 		}
@@ -210,13 +221,14 @@ app.get('/showDept/addDept',(req,res)=>{
 })
 app.post('/showDept', function(req, res, next) {
 	var dname = req.body.dname;
-    var sql = `INSERT INTO department (dname,comp_id) VALUES ('${dname}', 121)`;
+    var sql = `INSERT INTO department (dname) VALUES ('${dname}')`;
     connection.query(sql,function (err, data) {
 	  if (err){
 		  req.flash('error','Department not inserted')
 		  res.redirect('/showDept')
+		  console.log(err)
 	  }else{
-			
+		req.flash('success','Record inserted')
 		res.redirect('/showDept');
 		console.log("record inserted");
 	  }
@@ -225,6 +237,7 @@ app.post('/showDept', function(req, res, next) {
 app.get('/showDept/:id/edit',(req,res)=>{
 	var sql=`SELECT dname,dnumber FROM department where dnumber=${req.params.id};`;
 	connection.query(sql,(err,data,fields)=>{
+		if(err) throw err;
 		res.render('dept_edit', { dnoData: data});
 	})
 })
@@ -236,6 +249,7 @@ app.post('/showDept/:id', function(req, res, next) {
 		req.flash('error','Department not Updated')
 		res.redirect('/showDept')
 	  }else{
+		  req.flash('success','Department Updated')
 		res.redirect(`/showDept`);
 		   console.log('record updated');
 	  }
@@ -245,10 +259,14 @@ app.post('/showDept/:id', function(req, res, next) {
 app.delete('/showDept/:id/',(req,res)=>{
 	var sql=`Delete from department where dnumber=${req.params.id}`;
 	connection.query(sql,(err,data)=>{
-		if(err)
-			throw err;
-		res.redirect('/showDept');
-			console.log('record deleted')
+		if (err){
+		req.flash('error','Department not Deleted')
+		res.redirect('/showDept')
+	  }else{
+		  req.flash('success','Department Deleted')
+		res.redirect(`/showDept`);
+		   console.log('record deleted');
+	  }
 	})
 })
 
@@ -266,8 +284,10 @@ app.post('/showGrade', function(req, res, next) {
    	var sql = `INSERT INTO pay_grade (grade_name,grade_basic,grade_da,grade_pf,grade_bonus) VALUES ('${grade_name}', '${grade_basic}','${grade_da}','${grade_pf}','${grade_bonus}')`;
    	connection.query(sql,function (err, data) {
 	  if (err){
-		  console.log(err)
+		  req.flash('error','Grade not inserted')
+		res.redirect('/showGrade')
 	  }else{
+		  req.flash('success','Grade Inserted')
 		  res.redirect('/showGrade')
 		  console.log('record inserted')
 	  }
@@ -288,19 +308,26 @@ app.post('/showGrade/:id', function(req, res, next) {
    var sql = `UPDATE pay_grade SET grade_name='${grade_name}',grade_basic='${grade_basic}',grade_da='${grade_da}',grade_pf='${grade_pf}',grade_bonus='${grade_bonus}' WHERE grade_id=${req.params.id}`;
    connection.query(sql,function (err, data) {
 	  if (err){
-		  throw err;
-	  };
+		  req.flash('error','Grade not updated')
+		res.redirect('/showGrade')
+	  }else{
+		   req.flash('success','Grade updated')
 	  res.redirect(`/showGrade`);
 		   console.log('record updated');
+	  }
 	});
 });
 app.delete('/showGrade/:id/',(req,res)=>{
 	var sql=`Delete from pay_grade where grade_id=${req.params.id}`;
 	connection.query(sql,(err,data)=>{
-		if(err)
-			throw err;
-		res.redirect('/showGrade');
-			console.log('record deleted')
+		if (err){
+		  req.flash('error','Grade not deleted')
+		res.redirect('/showGrade')
+	  }else{
+		   req.flash('success','Grade deleted')
+	  res.redirect(`/showGrade`);
+		   console.log('record deleted');
+	  }
 	})
 })
 
@@ -308,11 +335,11 @@ app.delete('/showGrade/:id/',(req,res)=>{
 // SALARY DETAILS ROUTES 
 app.get('/showSal',(req,res)=>{
 	if (req.session.loggedin) {
-		var sql='Select SSN from employee';
+		var sql='Select emp_id from employee';
 		connection.query(sql,(err,data,fields)=>{
 			var sql1='Select grade_name from pay_grade'
 			connection.query(sql1,(err,data1,fields)=>{
-				res.render('sal_deet_form',{ssndata:data,gdata:data1});
+				res.render('sal_deet_form',{emp_iddata:data,gdata:data1});
 			})
 		})
 	} else {
@@ -321,16 +348,22 @@ app.get('/showSal',(req,res)=>{
   }
 });
 app.post('/showSal/addSal', function(req, res, next) {
-	var SSN    = req.body.SSN;
+	var emp_id    = req.body.emp_id;
 	var grade_name = req.body.grade_name;
 	var emp_salary_month = req.body.emp_salary_month;
 	var emp_salary_year = req.body.emp_salary_year;
 	var recieved_date = req.body.recieve_date;
-	   var sql = `INSERT INTO salary (SSN,grade_no,emp_salary_month,emp_salary_year,recieve_date,emp_net_salary,emp_gross) VALUES 
-	   ('${SSN}', (Select grade_id from pay_grade where grade_name='${grade_name}'),'${emp_salary_month}','${emp_salary_year}','${recieved_date}',(Select grade_basic+grade_da+grade_bonus-grade_pf from pay_grade where grade_name='${grade_name}'),(Select (grade_basic+grade_da+grade_bonus-grade_pf)*12 from pay_grade where grade_name='${grade_name}') )`;
+	   var sql = `INSERT INTO salary (emp_id,grade_no,emp_salary_month,emp_salary_year,recieve_date,emp_net_salary,emp_gross) VALUES 
+	   ('${emp_id}', (Select grade_id from pay_grade where grade_name='${grade_name}'),
+	   '${emp_salary_month}',
+	   '${emp_salary_year}',
+	   '${recieved_date}',
+	   (Select grade_basic+grade_da+grade_bonus-grade_pf from pay_grade where grade_name='${grade_name}'),
+	   (Select (grade_basic+grade_da+grade_bonus-grade_pf)*12 from pay_grade where grade_name='${grade_name}') )`;
    	connection.query(sql,function (err, data) {
 	  if (err){
-		  console.log(err)
+		  req.flash('error','Salary not added')
+		res.redirect('/showSal')
 	  }else{
 		req.flash('success','Salary Added!')
 		  res.redirect('/showSal')
@@ -338,6 +371,63 @@ app.post('/showSal/addSal', function(req, res, next) {
 	  }
 	});
 });
+
+
+//COMPANY DETAILS
+app.get('/showComp/add_deet',(req,res)=>{
+	res.render('comp_form');
+  });
+app.post('/showComp', function(req, res, next) {
+	var turnover  = req.body.turnover;
+	var tax = req.body.tax;
+   	var sql = `INSERT INTO company_details (turnover,tax) VALUES ('${turnover}', '${tax}')`;
+   	connection.query(sql,function (err, data) {
+	  if (err){
+		  req.flash('error','Record not inserted')
+		res.redirect('/showComp')
+	  }else{
+		  req.flash('success','Record Inserted')
+		  res.redirect('/showComp')
+		  console.log('record inserted')
+	  }
+	});
+});
+app.get('/showComp/:id/edit',(req,res)=>{
+	var sql=`SELECT * FROM company_details where year=${req.params.id};`;
+	connection.query(sql,(err,data,fields)=>{
+		if(err)
+		console.log(err)
+		res.render('comp_edit', { cdata: data});
+	})
+})
+app.post('/showComp/:id', function(req, res, next) {
+	var turnover = req.body.turnover;
+	var tax  = req.body.tax;
+   var sql = `UPDATE company_details SET turnover='${turnover}',tax='${tax}' WHERE year=${req.params.id}`;
+   connection.query(sql,function (err, data) {
+	  if (err){
+		  req.flash('error','Record not updated')
+		res.redirect('/showComp')
+	  }else{
+		   req.flash('success','Record updated')
+	  res.redirect(`/showComp`);
+		   console.log('record updated');
+	  }
+	});
+});
+app.delete('/showComp/:id/',(req,res)=>{
+	var sql=`Delete from company_details where year=${req.params.id}`;
+	connection.query(sql,(err,data)=>{
+		if (err){
+		  req.flash('error','Record not deleted')
+		res.redirect('/showComp')
+	  }else{
+		   req.flash('success','Record deleted')
+	  res.redirect(`/showComp`);
+		   console.log('record deleted');
+	  }
+	})
+})
 
 
 //PORTAL ROUTES
